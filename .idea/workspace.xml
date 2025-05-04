@@ -4,11 +4,42 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f2b7310e-6f12-4242-9d60-b64c1218f839" name="Changes" comment=":zap: Initial commit">
+    <list default="true" id="f2b7310e-6f12-4242-9d60-b64c1218f839" name="Changes" comment=":art: Update .gitignore to include .idea directory and ensure client/package-lock.json is tracked">
+      <change afterPath="$PROJECT_DIR$/client/src/components/QRCodeDisplay.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/EventDetails.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/EventsList.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/ParticipantsList.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/ResetPassword.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/Results.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/ScanQrCode.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/Schedule.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/SetPassword.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/WaterManagement.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/controllers/eventController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/controllers/participationController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/controllers/waterController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/models/eventModel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/models/identificationCodeModel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/models/participationModel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/models/waterHistoryModel.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/routes/eventRoutes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/routes/participantRoutes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/routes/participationRoutes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/routes/waterRoutes.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.jsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/context/AuthContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/context/AuthContext.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Profile.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Profile.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/authController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/authController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/participantController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/middleware/authMiddleware.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/middleware/authMiddleware.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/userModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/participantModel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/authRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/authRoutes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/userRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/userRoutes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +49,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="JSX File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -57,16 +88,17 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "W:\\tunis_gp\\client\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "C:\\Users\\khali\\AppData\\Local\\Programs\\WebStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="W:\tunis_gp\server\routes" />
+      <recent name="W:\tunis_gp\client\src\assets\images\flags" />
       <recent name="W:\tunis_gp" />
       <recent name="W:\tunis_gp\client\client\src" />
       <recent name="W:\tunis_gp\client\src" />
-      <recent name="W:\tunis_gp\client\src\pages" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -84,7 +116,7 @@
       <option name="presentableId" value="Default" />
       <updated>1746363678977</updated>
       <workItem from="1746363680011" duration="2330000" />
-      <workItem from="1746366084524" duration="1864000" />
+      <workItem from="1746366084524" duration="8711000" />
     </task>
     <task id="LOCAL-00001" summary=":zap: Initial commit">
       <option name="closed" value="true" />
@@ -94,7 +126,31 @@
       <option name="project" value="LOCAL" />
       <updated>1746367632921</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary=":art: Rename index.css to main.css and add SVG files for various countries">
+      <option name="closed" value="true" />
+      <created>1746368266848</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1746368266848</updated>
+    </task>
+    <task id="LOCAL-00003" summary=":art: Update registration process to include first name, last name, and country; add country flag component">
+      <option name="closed" value="true" />
+      <created>1746369197893</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1746369197893</updated>
+    </task>
+    <task id="LOCAL-00004" summary=":art: Update .gitignore to include .idea directory and ensure client/package-lock.json is tracked">
+      <option name="closed" value="true" />
+      <created>1746369597688</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1746369597688</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -113,6 +169,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value=":zap: Initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value=":zap: Initial commit" />
+    <MESSAGE value=":art: Rename index.css to main.css and add SVG files for various countries" />
+    <MESSAGE value=":art: Update registration process to include first name, last name, and country; add country flag component" />
+    <MESSAGE value=":art: Update .gitignore to include .idea directory and ensure client/package-lock.json is tracked" />
+    <option name="LAST_COMMIT_MESSAGE" value=":art: Update .gitignore to include .idea directory and ensure client/package-lock.json is tracked" />
   </component>
 </project>

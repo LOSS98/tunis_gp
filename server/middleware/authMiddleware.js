@@ -1,3 +1,4 @@
+// server/middleware/authMiddleware.js
 import jwt from 'jsonwebtoken';
 import jwtConfig from '../config/jwt.js';
 
@@ -32,4 +33,81 @@ export const checkRole = (roles) => {
             res.status(403).json({ message: 'Access denied: insufficient role' });
         }
     };
+};
+
+// Middleware to check if user is admin or LOC
+export const isAdminOrLOC = (req, res, next) => {
+    if (!req.user) {
+        return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    if (req.user.role === 'admin' || req.user.role === 'loc') {
+        next();
+    } else {
+        res.status(403).json({ message: 'Access denied: admin or LOC role required' });
+    }
+};
+
+// Middleware to check if user can manage water bottles (LOC, volunteer, admin)
+export const canManageWater = (req, res, next) => {
+    if (!req.user) {
+        return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    const allowedRoles = ['admin', 'loc', 'volunteer'];
+
+    if (allowedRoles.includes(req.user.role)) {
+        next();
+    } else {
+        res.status(403).json({ message: 'Access denied: not authorized to manage water bottles' });
+    }
+};
+
+// Middleware to check if user can view participant data (security, volunteer, admin, LOC)
+export const canViewParticipantData = (req, res, next) => {
+    if (!req.user) {
+        return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    const allowedRoles = ['admin', 'loc', 'volunteer', 'security'];
+
+    if (allowedRoles.includes(req.user.role)) {
+        next();
+    } else {
+        res.status(403).json({ message: 'Access denied: not authorized to view participant data' });
+    }
+};
+
+// Middleware to check if user can manage events and results (admin, LOC)
+export const canManageEvents = (req, res, next) => {
+    if (!req.user) {
+        return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    const allowedRoles = ['admin', 'loc'];
+
+    if (allowedRoles.includes(req.user.role)) {
+        next();
+    } else {
+        res.status(403).json({ message: 'Access denied: not authorized to manage events' });
+    }
+};
+
+// Middleware to check if user is accessing their own data or has admin/LOC rights
+export const isOwnDataOrAdmin = (req, res, next) => {
+    if (!req.user) {
+        return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    const requestedUserId = parseInt(req.params.id);
+
+    if (
+        requestedUserId === req.user.userId ||
+        req.user.role === 'admin' ||
+        req.user.role === 'loc'
+    ) {
+        next();
+    } else {
+        res.status(403).json({ message: 'Access denied: can only access your own data' });
+    }
 };

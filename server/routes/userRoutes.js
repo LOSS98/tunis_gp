@@ -1,5 +1,5 @@
 import express from 'express';
-import UserController from '../controllers/userController.js';
+import ParticipantController from '../controllers/participantController.js';
 import { verifyToken, checkRole } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -8,8 +8,8 @@ const router = express.Router();
 router.use(verifyToken);
 
 // Routes for admins only
-router.get('/', checkRole(['admin']), UserController.getAllUsers);
-router.get('/:id', checkRole(['admin']), UserController.getUserById);
+router.get('/', checkRole(['admin']), ParticipantController.getAllUsers);
+router.get('/:id', checkRole(['admin']), ParticipantController.getUserById);
 
 // Update user - admins can update any user, users can only update their own profile
 router.put('/:id', (req, res, next) => {
@@ -21,6 +21,6 @@ router.put('/:id', (req, res, next) => {
     }
 
     return res.status(403).json({ message: 'Not authorized to update this user' });
-}, UserController.updateUser);
+}, ParticipantController.updateUser);
 
 export default router;

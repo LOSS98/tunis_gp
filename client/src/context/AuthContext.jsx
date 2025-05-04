@@ -1,3 +1,4 @@
+// client/src/context/AuthContext.jsx
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
@@ -57,15 +58,16 @@ export const AuthProvider = ({ children }) => {
     };
 
     // Register function
-    const register = async (firstName, lastName, email, password, phone = null, country = null) => {
+    const register = async (firstName, lastName, email, password, bib = null, country = null, participantClass = null) => {
         try {
             const response = await axios.post('/api/auth/register', {
                 firstName,
                 lastName,
                 email,
                 password,
-                phone,
-                country
+                bib,
+                country,
+                participantClass
             });
 
             return {
@@ -105,6 +107,60 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // Generate QR code
+    const generateQRCode = async () => {
+        try {
+            const response = await axios.get('/api/auth/generate-qr');
+            return {
+                success: true,
+                data: response.data
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: error.response?.data?.message || 'Error generating QR code'
+            };
+        }
+    };
+
+    // Set/Reset password
+    const setPassword = async (email, token, password) => {
+        try {
+            const response = await axios.post('/api/auth/set-password', {
+                email,
+                token,
+                password
+            });
+            return {
+                success: true,
+                message: response.data.message
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: error.response?.data?.message || 'Error setting password'
+            };
+        }
+    };
+
+    // Request password reset
+    const resetPassword = async (email) => {
+        try {
+            const response = await axios.post('/api/participants/reset-password', {
+                email
+            });
+            return {
+                success: true,
+                message: response.data.message
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: error.response?.data?.message || 'Error requesting password reset'
+            };
+        }
+    };
+
     // Context value
     const value = {
         currentUser,
@@ -112,7 +168,10 @@ export const AuthProvider = ({ children }) => {
         login,
         register,
         logout,
-        fetchUserProfile
+        fetchUserProfile,
+        generateQRCode,
+        setPassword,
+        resetPassword
     };
 
     return (
