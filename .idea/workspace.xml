@@ -5,11 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2b7310e-6f12-4242-9d60-b64c1218f839" name="Changes" comment=":art: Refactor user routes to participant routes, add water and participation routes, and implement QR code generation and reset password functionality">
-      <change afterPath="$PROJECT_DIR$/server/controllers/invitationController.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/routes/invitationRoutes.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/models/invitationModel.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/authController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/authController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/invitationController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/invitationController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/participantModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/participantModel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/authRoutes.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/authRoutes.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +87,7 @@
       <option name="presentableId" value="Default" />
       <updated>1746363678977</updated>
       <workItem from="1746363680011" duration="2330000" />
-      <workItem from="1746366084524" duration="9990000" />
+      <workItem from="1746366084524" duration="11006000" />
     </task>
     <task id="LOCAL-00001" summary=":zap: Initial commit">
       <option name="closed" value="true" />
@@ -128,7 +129,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746394224929</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary=":art: Refactor user routes to participant routes, add water and participation routes, and implement QR code generation and reset password functionality">
+      <option name="closed" value="true" />
+      <created>1746395512398</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1746395512398</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

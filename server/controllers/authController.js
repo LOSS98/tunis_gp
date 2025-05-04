@@ -4,6 +4,8 @@ import bcrypt from 'bcrypt';
 import ParticipantModel from '../models/participantModel.js';
 import jwtConfig from '../config/jwt.js';
 import IdentificationCodeModel from '../models/identificationCodeModel.js';
+import * as db from '../config/db.js';
+
 
 const AuthController = {
     async register(req, res) {
@@ -19,22 +21,10 @@ const AuthController = {
                 role_id
             } = req.body;
 
-            // Vérifier si l'email a été invité
-            const invitationResult = await db.query(
-                'SELECT * FROM invitations WHERE email = $1 AND registered = FALSE',
-                [email]
-            );
+            // Vérifier si la route est utilisée pour créer le premier admin
+            const isFirstAdmin = req.path === '/setup-admin';
 
-            const invitation = invitationResult.rows[0];
-
-            // Si l'utilisateur n'est pas un admin, vérifier l'invitation
-            if (!req.user || req.user.role !== 'admin') {
-                if (!invitation) {
-                    return res.status(403).json({
-                        message: 'Vous devez être invité pour vous inscrire. Contactez un administrateur.'
-                    });
-                }
-            }
+            let roleToUse = role_id || 5; // Default to athlete (role_id 5)
 
             // Check if participant already exists with this email
             const existingParticipant = await ParticipantModel.findByEmail(email);
@@ -42,11 +32,47 @@ const AuthController = {
                 return res.status(400).json({ message: 'Email is already in use' });
             }
 
-            // Si l'invitation existe, utiliser le rôle défini dans l'invitation
-            const roleToUse = invitation ? invitation.role_id : (role_id || 5);
+            // Si ce n'est pas pour créer le premier admin, vérifier les invitations
+            if (!isFirstAdmin && !req.user?.role === 'admin') {
+                try {
+                    // Vérifier si l'email a été invité
+                    const invitation = await InvitationModel.findByEmail(email);
+
+                    if (!invitation) {
+                        return res.status(403).json({
+                            message: 'Vous devez être invité pour vous inscrire. Contactez un administrateur.'
+                        });
+                    }
+
+                    // Si l'invitation existe, utiliser le rôle défini dans l'invitation
+                    roleToUse = invitation.role_id;
+                } catch (invitationError) {
+                    console.log('Invitation check failed:', invitationError.message);
+                    // Si on ne peut pas vérifier les invitations (ex: table non créée),
+                    // continuer seulement si c'est le premier admin
+                    if (!isFirstAdmin) {
+                        return res.status(500).json({
+                            message: 'Erreur lors de la vérification des invitations'
+                        });
+                    }
+                }
+            }
+
+            // If bib is provided, check if it's unique
+            if (bib) {
+                const participantWithBib = await ParticipantModel.findByBib(bib);
+                if (participantWithBib) {
+                    return res.status(400).json({ message: 'BIB number is already in use' });
+                }
+            }
 
             // Get creator ID from JWT if available
             const created_by = req.user ? req.user.userId : null;
+
+            // Pour le premier admin, force le role_id à 1 (admin)
+            if (isFirstAdmin) {
+                roleToUse = 1; // Admin role
+            }
 
             // Create new participant
             const newParticipant = await ParticipantModel.create({
@@ -61,12 +87,13 @@ const AuthController = {
                 created_by
             });
 
-            // Marquer l'invitation comme utilisée
-            if (invitation) {
-                await db.query(
-                    'UPDATE invitations SET registered = TRUE WHERE email = $1',
-                    [email]
-                );
+            // Marquer l'invitation comme utilisée si elle existe
+            if (!isFirstAdmin && !req.user?.role === 'admin') {
+                try {
+                    await InvitationModel.markAsRegistered(email);
+                } catch (updateError) {
+                    console.log('Failed to update invitation:', updateError.message);
+                }
             }
 
             res.status(201).json({
@@ -87,6 +114,7 @@ const AuthController = {
         }
     },
 
+    // Le reste du contrôleur reste inchangé...
     async login(req, res) {
         try {
             const { email, password } = req.body;
