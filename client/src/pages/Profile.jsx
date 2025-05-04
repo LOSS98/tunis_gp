@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import CountryFlag from '../components/CountryFlag';
 
 const Profile = () => {
     const { currentUser, fetchUserProfile } = useAuth();
@@ -42,7 +43,11 @@ const Profile = () => {
             {profileData ? (
                 <div>
                     <div className="profile-info">
-                        <strong>Name:</strong> {profileData.name}
+                        <strong>First Name:</strong> {profileData.firstName}
+                    </div>
+
+                    <div className="profile-info">
+                        <strong>Last Name:</strong> {profileData.lastName}
                     </div>
 
                     <div className="profile-info">
@@ -52,6 +57,13 @@ const Profile = () => {
                     <div className="profile-info">
                         <strong>Role:</strong> {profileData.role}
                     </div>
+
+                    {profileData.country && (
+                        <div className="profile-info">
+                            <strong>Country:</strong>
+                            <CountryFlag countryCode={profileData.country} />
+                        </div>
+                    )}
 
                     {profileData.phone && (
                         <div className="profile-info">
@@ -72,10 +84,14 @@ const Profile = () => {
                     )}
                 </div>
             ) : (
-                // Display basic info from auth context
+                // Display basic info from auth context (modify this too)
                 <div>
                     <div className="profile-info">
-                        <strong>Name:</strong> {currentUser?.user?.name}
+                        <strong>First Name:</strong> {currentUser?.user?.firstName}
+                    </div>
+
+                    <div className="profile-info">
+                        <strong>Last Name:</strong> {currentUser?.user?.lastName}
                     </div>
 
                     <div className="profile-info">
@@ -85,6 +101,13 @@ const Profile = () => {
                     <div className="profile-info">
                         <strong>Role:</strong> {currentUser?.user?.role}
                     </div>
+
+                    {currentUser?.user?.country && (
+                        <div className="profile-info">
+                            <strong>Country:</strong>
+                            <CountryFlag countryCode={currentUser.user.country} />
+                        </div>
+                    )}
 
                     {currentUser?.user?.phone && (
                         <div className="profile-info">

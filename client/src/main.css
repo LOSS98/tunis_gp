@@ -149,3 +149,19 @@ table th, table td {
 table th {
   background-color: #f5f5f5;
 }
+
+.country-flag {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.flag-icon {
+  width: 24px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.country-name {
+  font-size: 14px;
+}

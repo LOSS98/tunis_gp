@@ -1,3 +1,4 @@
+// server/controllers/authController.js
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import UserModel from '../models/userModel.js';
@@ -6,7 +7,7 @@ import jwtConfig from '../config/jwt.js';
 const AuthController = {
     async register(req, res) {
         try {
-            const { name, email, password, phone, profilePicture, role_id } = req.body;
+            const { firstName, lastName, email, password, phone, country, role_id } = req.body;
 
             // Check if user already exists
             const existingUser = await UserModel.findByEmail(email);
@@ -19,11 +20,12 @@ const AuthController = {
 
             // Create new user (default role is volunteer if not specified)
             const newUser = await UserModel.create({
-                name,
+                firstName,
+                lastName,
                 email,
                 password,
                 phone,
-                profilePicture,
+                country,
                 role_id: role_id || 3, // Default to volunteer
                 created_by
             });
@@ -32,12 +34,15 @@ const AuthController = {
                 message: 'User created successfully',
                 user: {
                     id: newUser.id,
-                    name: newUser.name,
+                    firstName: newUser.first_name,
+                    lastName: newUser.last_name,
                     email: newUser.email,
-                    phone: newUser.phone
+                    phone: newUser.phone,
+                    country: newUser.country
                 }
             });
         } catch (error) {
+            console.error('Registration error:', error);
             res.status(500).json({ message: 'Server error', error: error.message });
         }
     },
@@ -79,11 +84,13 @@ const AuthController = {
                 token,
                 user: {
                     id: user.id,
-                    name: user.name,
+                    firstName: user.first_name,
+                    lastName: user.last_name,
                     email: user.email,
                     role: role.name,
                     profilePicture: user.profilePicture,
-                    phone: user.phone
+                    phone: user.phone,
+                    country: user.country
                 }
             });
         } catch (error) {

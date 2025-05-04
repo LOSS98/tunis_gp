@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import axios from 'axios';
+import countryList from '../utils/countryList';
 
 const Register = () => {
-    const [name, setName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [phone, setPhone] = useState('');
+    const [country, setCountry] = useState('');
     const [roleId, setRoleId] = useState(3); // Default to volunteer
     const [roles, setRoles] = useState([]);
     const [error, setError] = useState('');
@@ -46,7 +49,7 @@ const Register = () => {
         e.preventDefault();
 
         // Validation
-        if (!name || !email || !password || !confirmPassword) {
+        if (!firstName || !lastName || !email || !password || !confirmPassword) {
             setError('All fields are required');
             return;
         }
@@ -68,10 +71,12 @@ const Register = () => {
             // Admin registers with role
             if (isAdmin) {
                 const response = await axios.post('/api/auth/admin/register', {
-                    name,
+                    firstName,
+                    lastName,
                     email,
                     password,
                     phone,
+                    country,
                     role_id: roleId
                 }, {
                     headers: {
@@ -82,16 +87,18 @@ const Register = () => {
                 if (response.status === 201) {
                     setSuccess('User registered successfully!');
                     // Clear form
-                    setName('');
+                    setFirstName('');
+                    setLastName('');
                     setEmail('');
                     setPassword('');
                     setConfirmPassword('');
                     setPhone('');
+                    setCountry('');
                     setRoleId(3);
                 }
             } else {
                 // Normal user registration
-                const result = await register(name, email, password, phone);
+                const result = await register(firstName, lastName, email, password, phone, country);
 
                 if (result.success) {
                     setSuccess('Registration successful! You can now login.');
@@ -120,12 +127,23 @@ const Register = () => {
 
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
-                    <label htmlFor="name">Name</label>
+                    <label htmlFor="firstName">First Name</label>
                     <input
                         type="text"
-                        id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        id="firstName"
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
+                        required
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="lastName">Last Name</label>
+                    <input
+                        type="text"
+                        id="lastName"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
                         required
                     />
                 </div>
@@ -139,6 +157,22 @@ const Register = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="country">Country</label>
+                    <select
+                        id="country"
+                        value={country}
+                        onChange={(e) => setCountry(e.target.value)}
+                    >
+                        <option value="">Select Country</option>
+                        {countryList.map(country => (
+                            <option key={country.code} value={country.code}>
+                                {country.name}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
                 <div className="form-group">

@@ -5,11 +5,11 @@ const UserModel = {
     async findAll() {
         try {
             const result = await db.query(`
-        SELECT u.id, u.name, u.email, u.profilePicture, u.phone, 
-               u.last_connection, u.created_on, r.name as role 
-        FROM users u 
-        JOIN roles r ON u.role_id = r.id
-      `);
+                SELECT u.id, u.first_name, u.last_name, u.email, u.profilePicture, u.phone,
+                       u.country, u.last_connection, u.created_on, r.name as role
+                FROM users u
+                         JOIN roles r ON u.role_id = r.id
+            `);
             return result.rows;
         } catch (error) {
             throw error;
@@ -19,12 +19,12 @@ const UserModel = {
     async findById(id) {
         try {
             const result = await db.query(`
-        SELECT u.id, u.name, u.email, u.profilePicture, u.phone, 
-               u.last_connection, u.created_on, r.name as role 
-        FROM users u 
-        JOIN roles r ON u.role_id = r.id 
-        WHERE u.id = $1
-      `, [id]);
+                SELECT u.id, u.first_name, u.last_name, u.email, u.profilePicture, u.phone,
+                       u.country, u.last_connection, u.created_on, r.name as role
+                FROM users u
+                         JOIN roles r ON u.role_id = r.id
+                WHERE u.id = $1
+            `, [id]);
             return result.rows[0];
         } catch (error) {
             throw error;
@@ -42,11 +42,13 @@ const UserModel = {
 
     async create(userData) {
         const {
-            name,
+            firstName,
+            lastName,
             email,
             password,
             profilePicture = null,
             phone = null,
+            country = null,
             role_id = 3, // Default to 'volunteer' role
             created_by = null
         } = userData;
@@ -57,19 +59,21 @@ const UserModel = {
             const hashedPassword = await bcrypt.hash(password, salt);
 
             const result = await db.query(`
-        INSERT INTO users (
-          name, 
-          email, 
-          password, 
-          profilePicture, 
-          phone, 
-          role_id, 
-          created_by,
-          created_on
-        ) 
-        VALUES ($1, $2, $3, $4, $5, $6, $7, NOW()) 
-        RETURNING id, name, email, profilePicture, phone, role_id, created_on
-      `, [name, email, hashedPassword, profilePicture, phone, role_id, created_by]);
+                INSERT INTO users (
+                    first_name,
+                    last_name,
+                    email,
+                    password,
+                    profilePicture,
+                    phone,
+                    country,
+                    role_id,
+                    created_by,
+                    created_on
+                )
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW())
+                    RETURNING id, first_name, last_name, email, profilePicture, phone, country, role_id, created_on
+            `, [firstName, lastName, email, hashedPassword, profilePicture, phone, country, role_id, created_by]);
 
             return result.rows[0];
         } catch (error) {
@@ -78,20 +82,22 @@ const UserModel = {
     },
 
     async update(id, userData) {
-        const { name, email, phone, role_id, profilePicture } = userData;
+        const { firstName, lastName, email, phone, country, role_id, profilePicture } = userData;
 
         try {
             const result = await db.query(`
-        UPDATE users 
-        SET 
-          name = COALESCE($1, name),
-          email = COALESCE($2, email),
-          phone = COALESCE($3, phone),
-          role_id = COALESCE($4, role_id),
-          profilePicture = COALESCE($5, profilePicture)
-        WHERE id = $6
-        RETURNING id, name, email, profilePicture, phone, role_id
-      `, [name, email, phone, role_id, profilePicture, id]);
+                UPDATE users
+                SET
+                    first_name = COALESCE($1, first_name),
+                    last_name = COALESCE($2, last_name),
+                    email = COALESCE($3, email),
+                    phone = COALESCE($4, phone),
+                    country = COALESCE($5, country),
+                    role_id = COALESCE($6, role_id),
+                    profilePicture = COALESCE($7, profilePicture)
+                WHERE id = $8
+                    RETURNING id, first_name, last_name, email, profilePicture, phone, country, role_id
+            `, [firstName, lastName, email, phone, country, role_id, profilePicture, id]);
 
             return result.rows[0];
         } catch (error) {
@@ -102,10 +108,10 @@ const UserModel = {
     async updateLastConnection(userId) {
         try {
             await db.query(`
-        UPDATE users 
-        SET last_connection = NOW()
-        WHERE id = $1
-      `, [userId]);
+                UPDATE users
+                SET last_connection = NOW()
+                WHERE id = $1
+            `, [userId]);
 
             return true;
         } catch (error) {
