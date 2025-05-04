@@ -19,24 +19,36 @@ const AuthController = {
                 role_id
             } = req.body;
 
+            // Vérifier si l'email a été invité
+            const invitationResult = await db.query(
+                'SELECT * FROM invitations WHERE email = $1 AND registered = FALSE',
+                [email]
+            );
+
+            const invitation = invitationResult.rows[0];
+
+            // Si l'utilisateur n'est pas un admin, vérifier l'invitation
+            if (!req.user || req.user.role !== 'admin') {
+                if (!invitation) {
+                    return res.status(403).json({
+                        message: 'Vous devez être invité pour vous inscrire. Contactez un administrateur.'
+                    });
+                }
+            }
+
             // Check if participant already exists with this email
             const existingParticipant = await ParticipantModel.findByEmail(email);
             if (existingParticipant) {
                 return res.status(400).json({ message: 'Email is already in use' });
             }
 
-            // If bib is provided, check if it's unique
-            if (bib) {
-                const participantWithBib = await ParticipantModel.findByBib(bib);
-                if (participantWithBib) {
-                    return res.status(400).json({ message: 'BIB number is already in use' });
-                }
-            }
+            // Si l'invitation existe, utiliser le rôle défini dans l'invitation
+            const roleToUse = invitation ? invitation.role_id : (role_id || 5);
 
             // Get creator ID from JWT if available
             const created_by = req.user ? req.user.userId : null;
 
-            // Create new participant (default role is athlete if not specified)
+            // Create new participant
             const newParticipant = await ParticipantModel.create({
                 bib,
                 firstName,
@@ -45,9 +57,17 @@ const AuthController = {
                 password,
                 country,
                 class: participantClass,
-                role_id: role_id || 5, // Default to athlete (role_id 5)
+                role_id: roleToUse,
                 created_by
             });
+
+            // Marquer l'invitation comme utilisée
+            if (invitation) {
+                await db.query(
+                    'UPDATE invitations SET registered = TRUE WHERE email = $1',
+                    [email]
+                );
+            }
 
             res.status(201).json({
                 message: 'Participant created successfully',

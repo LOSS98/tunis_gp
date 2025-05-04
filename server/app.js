@@ -10,6 +10,8 @@ import participantRoutes from './routes/participantRoutes.js';
 import eventRoutes from './routes/eventRoutes.js';
 import participationRoutes from './routes/participationRoutes.js';
 import waterRoutes from './routes/waterRoutes.js';
+import invitationRoutes from './routes/invitationRoutes.js';
+
 
 // Import models for scheduled tasks
 import IdentificationCodeModel from './models/identificationCodeModel.js';
@@ -29,6 +31,7 @@ app.use('/api/participants', participantRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/participations', participationRoutes);
 app.use('/api/water', waterRoutes);
+app.use('/api/invitations', invitationRoutes);
 
 // Base route
 app.get('/', (req, res) => {
